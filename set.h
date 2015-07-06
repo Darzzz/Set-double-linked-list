@@ -4,7 +4,7 @@
 using namespace std;
 
 template <class T>
-struct root{
+class root{
     T inf;
     root *next,*prev;
 };
@@ -12,34 +12,33 @@ struct root{
 template <class T>
 class List
 {
-    root *head;
+    root<T> *head;
 public:
-    ~List();
-
-    void addLast(T newData);
-    void removeLast();
-    T getItem(T index);
-    friend istream &operator>>(istream &ist,List &A);
-    bool findElem(T);
-    bool isEmpty();
-    T count();
+    List(){
+    head = NULL;
+    }
+    ~List(){
+    }
+    List(const List&); //конструктор копии
+    void addLast(T); //добавление в конец списка
+    void removeLast(); //удаление с конца списка
+    bool findElem(T);// проверка наличия элемента в списке
+    bool isEmpty(); // проверка на пустоту
+    T count(); // количество элементов списка
 
 };
 
 template <class T>
 class Set : List<T>
 {
-    root *head;
 public:
-    Set();
-    ~Set();
-    Set& operator|=(T);
-    Set& operator/=(T);
-    Set& operator||(Set&);
-    Set& operator&&(Set&);
-    Set& operator==(Set&);
-    friend ostream& operator<<(ostream &,Set &);
-    friend istream& operator>>(istream &,Set &);
+    Set& operator|=(T); //добавление элемента в множество
+    Set& operator/=(T); //исключение элемента из множества
+    Set& operator||(Set&); //объединение множеств
+    Set& operator&&(Set&); //пересечение множеств
+    Set& operator==(Set&); //сравнение множеств на равенство
+    friend ostream& operator<<(ostream &,Set &); //вывод в поток
+    friend istream& operator>>(istream &,Set &); //ввод из потока
 
 };
 
