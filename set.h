@@ -27,7 +27,7 @@ public:
 };
 
 template <class T>
-class Set : List
+class Set : List<T>
 {
     root *head;
 public:
