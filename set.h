@@ -10,7 +10,24 @@ struct root{
 };
 
 template <class T>
-class Set
+class List
+{
+    root *head;
+public:
+    ~List();
+
+    void addLast(T newData);
+    void removeLast();
+    T getItem(T index);
+    friend istream &operator>>(istream &ist,List &A);
+    bool findElem(T);
+    bool isEmpty();
+    T count();
+
+};
+
+template <class T>
+class Set : List
 {
     root *head;
 public:
@@ -23,8 +40,7 @@ public:
     Set& operator==(Set&);
     friend ostream& operator<<(ostream &,Set &);
     friend istream& operator>>(istream &,Set &);
-    bool isEmpty();
-    bool findElem(T);
+
 };
 
 #endif // SET_H
