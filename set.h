@@ -20,12 +20,12 @@ public:
     }
     ~List();
 
-    List(const List<T&>&); //конструктор копии (Саша)
-    void addLast(T&); //добавление в конец списка (Саша)
-    void removeLast(); //удаление с конца списка (Илья)
-    bool findElem(T&);// проверка наличия элемента в списке (Илья)
-    bool isEmpty(); // проверка на пустоту (Илья)
-    int count(); // количество элементов списка (Илья)
+    List(const List<T&>&); //конструктор копии (Саша) -
+    void addLast(T&); //добавление в конец списка (Саша) -
+    void removeLast(); //удаление с конца списка (Илья) -
+    bool findElem(T&);// проверка наличия элемента в списке (Илья)-
+    bool isEmpty(); // проверка на пустоту (Илья)-
+    int count(); // количество элементов списка (Илья)-
 
 };
 
@@ -33,17 +33,21 @@ template <class T>
 class Set : List<T>
 {
 public:
-    Set& operator|=(T&); //добавление элемента в множество (Саша)
-    Set& operator/=(T&); //исключение элемента из множества (Саша)
+    Set& operator|=(T&); //добавление элемента в множество (Саша)-
+    Set& operator/=(T&); //исключение элемента из множества (Саша)-
     Set& operator||(Set&); //объединение множеств (Саша)
     Set& operator&&(Set&); //пересечение множеств (Илья)
     Set& operator==(Set&); //сравнение множеств на равенство (Илья)
-    friend ostream& operator<<(ostream &,Set &){ //вывод в поток (Илья)
-
+    friend ostream& operator<<(ostream &ost,Set &s){ //вывод в поток (Илья)
+        Node<T> *t = s.head;
+        while(t->next !=nullptr){
+           ost<<t->inf;
+           t=t->next;}
+        return ost;
     }
     friend istream& operator>>(istream &ist,Set &s){//эту штуку нужно вынести из класса
         T data;
-        while(!ist.eof()){
+        while(ist.good){
             ist>>data;
             s.addLast(data);
         }
@@ -130,8 +134,9 @@ Set<T>& Set<T>::operator||(Set& s){
     if(!isEmpty()){
         if(s.head)
             while(t->next){
-               *this|=t->inf;
-                t = t->next;
+               if(!findElem(t->inf))
+                   *this|=t->inf;
+               t = t->next;
             }
     }
     return *this;
@@ -156,7 +161,26 @@ int Set<T>::numElem(T& comp){
 template <class T>//оператор пересечения
 Set<T>& Set<T>::operator&&(Set& s){
     node<T> *t = s.head;
+    if(!isEmpty()){
+        while(t->next!=nullptr){
+            if(!findElem(t->inf))
+                s/=t->inf;
+            t= t->next; }
+        }
+     return s;
+}
 
+template <class T>//сравнение мн-в
+Set<T>& Set<T>:: operator==(Set& s){
+    node<T>* t = s.head;
+    if(!isEmpty()){
+        while(t->next!=nullptr){
+           if(!findElem(t->inf)){
+               return false;
+               break;  }
+           t=t->next;  }
+    }
+    return true;
 }
 
 template <class T>// удаление последнего
